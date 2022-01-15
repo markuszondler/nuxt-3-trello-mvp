@@ -12,14 +12,21 @@ export default {
             board: {
                 name: 'Test',
                 columns: []
-            }
-        
+            },
+            newCardItem: ''
     }),
     methods: {
         createColumn() {
             this.board.columns.push({
                 items: []
             })
+        },
+        createCard(column) {
+            column.items.push({
+                id: 2,
+                name: this.newCardItem
+            })
+            this.newCardItem = ''
         }
     },
     mounted() {
@@ -37,7 +44,15 @@ export default {
             <h2>{{ board.name }}</h2>
             <button @click="createColumn">Create column</button>
             <div class="column-grid">
-                <ul class="board-column" v-for="column in board.columns" :key="column"></ul>
+                <section class="board-column" v-for="column in board.columns" :key="column">
+                    <input type="text" v-model="newCardItem">
+                    <button @click="createCard(column)">Create Card</button>
+                    <ul>
+                        <li v-for="item in column.items" :key="item.id">
+                            {{ item.name }}
+                        </li>
+                    </ul>
+                </section>
             </div>
         </section>
     </div>
