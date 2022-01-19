@@ -1,7 +1,9 @@
 <script>
 import {workspaceList} from '../../store/global.js'
+import BaseCard from "../../components/BaseCard";
 
 export default {
+  components: {BaseCard},
   setup() {
     return {
       workspaceList
@@ -15,7 +17,10 @@ export default {
         {
           columnName:'Luffy',
           newItemName: '',
-          items: []
+          items: [{
+            id: 123,
+            name: 'Rocket Punch'
+          }]
         },
         {
           columnName: 'Zorro',
@@ -73,12 +78,8 @@ export default {
                  style="padding: 5px; font-size: 0.9rem;margin-bottom: 10px;" placeholder="New card title">
           <button @click="createCard(column)" style="margin-bottom: 15px;">Create Card</button>
           <ul style="margin: 0; padding: 0;">
-            <li v-for="item in column.items" :key="item.id" class="base-card">
-              <h5>{{ item.name }}</h5>
-              <select name="luffy-migrate-list" id="luffy-migrate-list" style="padding: 5px; width: 100%;margin-bottom: 5px;">
-                <option v-for="column in board.columns" :key="`migrate-${column.columnName}`" :value="column.columnName">{{ column.columnName }}</option>
-              </select>
-              <button>Migrate</button>
+            <li v-for="item in column.items" :key="item.id" style="list-style: none;">
+              <BaseCard :data="item" :migrate-list="board.columns" :parent-column="column.columnName"/>
             </li>
           </ul>
         </section>
@@ -88,14 +89,6 @@ export default {
 </template>
 
 <style>
-.base-card {
-  border: 1px solid #222;
-  padding: 5px;
-  list-style: none;
-  background: #fff;
-  margin-bottom: 10px;
-}
-
 .workspace-page {
   padding: 30px;
 }
